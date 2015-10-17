@@ -3,6 +3,9 @@ import urllib2 as urllib
 
 # See assignment1.html instructions or README for how to get these credentials
 
+# NOTE Stop stream by using interupt AND then delete last line of text file
+# which is likely to be incomplete or malformed
+
 api_key = "T2jZ7jM4HKhMpEAIe9Ouj82ZD"
 api_secret = "QZdkucNKWRSZDeaeMqDt2VmLRddhPnKpj0sqmPZkNXhlQXFsC8"
 access_token_key = "216475513-cX7b06ohDHC2uLoRIsOJ1vHxmevyzAD78b5ExupY"
@@ -35,7 +38,7 @@ def twitterreq(url, method, parameters):
   req.sign_request(signature_method_hmac_sha1, oauth_consumer, oauth_token)
 
   headers = req.to_header()
-
+  
   if http_method == "POST":
     encoded_post_data = req.to_postdata()
   else:
@@ -47,7 +50,6 @@ def twitterreq(url, method, parameters):
   opener.add_handler(https_handler)
 
   response = opener.open(url, encoded_post_data)
-
   return response
 
 def fetchsamples():
@@ -58,7 +60,8 @@ def fetchsamples():
   f = open('output.txt', 'w') ## sets up output file. WARNING WILL OVERWRITE
 
   for line in response:
-    print >> f, 'Filename:', line.strip() ## >> diverts print stream to pipe
+    f.write(line.strip())
+    f.write("\n")
   f.close()
 
 if __name__ == '__main__':
