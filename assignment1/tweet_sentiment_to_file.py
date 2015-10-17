@@ -26,7 +26,9 @@ def main():
 
     ## step through the tweet responses line by line, converting them from json
     ## to a dictionary jsonline (note this is over writen for each line), and
-    ## then applying a sentiment score for each tweet (line) and print to stdout
+    ## then applying a sentiment score for each tweet (line) and write to file
+
+    sf = open ("sentiment.txt", "w") ## results file
 
     with open(tweet_file, "r") as tweets: ## handles opening, closing & memory management
         
@@ -48,9 +50,11 @@ def main():
                 if not word in scores: continue 
                 sentiment = sentiment + scores[word]
 
-            ## Print result to stdout
             sm = str(sentiment)
-            sys.stdout.write(sm + '\n')
-      
+            sf.write(sm)
+            sf.write("\n")
+            
+    sf.close()      
+ 
 if __name__ == '__main__':
     main()
